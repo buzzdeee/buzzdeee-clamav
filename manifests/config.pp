@@ -28,4 +28,10 @@ class clamav::config (
     group   => '_clamav',
     mode    => '0644',
   }
+  file { '/var/log/clamd.log':
+    ensure  => 'present',
+    owner   => '_clamav',
+    group   => '_clamav',
+    mode    => '0644',
+  }
 }

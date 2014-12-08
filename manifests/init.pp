@@ -76,8 +76,9 @@ class clamav (
   }
 
   Class['clamav::install'] ->
+  Class['clamav::logrotate'] ->
   Class['clamav::config'] ~>
   Class['clamav::service'] ->
-  Class['clamav::cron'] ->
-  Class['clamav::logrotate']
+  Class['clamav::cron']
+
 }
