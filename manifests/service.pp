@@ -14,4 +14,7 @@ class clamav::service (
     ensure => $freshclam_service_ensure,
     flags  => $freshclam_service_flags,
   }
+
+  Service[$freshclam_service_name] ->
+  Service[$clamd_service_name]
 }
