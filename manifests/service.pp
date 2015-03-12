@@ -7,12 +7,18 @@ class clamav::service (
   $freshclam_service_flags,
 ) {
   service { "$clamd_service_name":
-    ensure => $clamd_service_ensure,
-    flags  => $clamd_service_flags,
+    ensure  => $clamd_service_ensure,
+    flags   => $clamd_service_flags,
+    require => Exec['fetch clamav databases'],
   }
   service { "$freshclam_service_name":
     ensure => $freshclam_service_ensure,
     flags  => $freshclam_service_flags,
+  }
+
+  Exec { 'fetch clamav databases':
+    command => '/usr/local/bin/freshclam',
+    creates  => '/var/db/clamav/main.cvd',
   }
 
   Service[$freshclam_service_name] ->
