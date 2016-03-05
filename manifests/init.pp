@@ -47,6 +47,9 @@ class clamav (
   $unofficial_sigs_package_name   = $clamav::params::unofficial_sigs_package_name,
   $unofficial_sigs_package_ensure = $clamav::params::unofficial_sigs_package_ensure,
   $unofficial_sigs_cron_ensure    = $clamav::params::unofficial_sigs_cron_ensure,
+
+  $listen_host = $clamav::params::listen_host,
+  $listen_port = $clamav::params::listen_port,
 ) inherits clamav::params {
 
   class { 'clamav::logrotate':
@@ -57,7 +60,10 @@ class clamav (
   class { 'clamav::cron':
     unofficial_sigs_cron_ensure => $unofficial_sigs_cron_ensure,
   }
-  class { 'clamav::config': }
+  class { 'clamav::config':
+    listen_host => $listen_host,
+    listen_port => $listen_port,
+  }
 
   class { 'clamav::install':
     clamav_package_name            => $clamav_package_name,

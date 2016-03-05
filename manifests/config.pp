@@ -1,5 +1,6 @@
 class clamav::config (
-
+  $listen_host,
+  $listen_port,
 ) {
   file { '/etc/clamd.conf':
     ensure  => 'present',

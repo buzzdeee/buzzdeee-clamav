@@ -10,4 +10,7 @@ class clamav::params {
   $unofficial_sigs_package_name = 'clamav-unofficial-sigs'
   $unofficial_sigs_package_ensure = 'installed'
   $unofficial_sigs_cron_ensure = 'present'
+
+  $listen_host = '127.0.0.1'
+  $listen_port = '3310'
 }

@@ -27,7 +27,7 @@ LogFile /var/log/clamd.log
 # in bytes just don't use modifiers. If LogFileMaxSize is enabled, log
 # rotation (the LogRotate option) will always be enabled.
 # Default: 1M
-#LogFileMaxSize 2M
+LogFileMaxSize 2M
 
 # Log time with each message.
 # Default: no
@@ -81,7 +81,7 @@ ExtendedDetectionInfo yes
 
 # Path to a local socket file the daemon will listen on.
 # Default: disabled (must be specified by a user)
-LocalSocket /tmp/clamd.sock
+#LocalSocket /tmp/clamd.sock
 
 # Sets the group ownership on the unix socket.
 # Default: disabled (the primary group of the user running clamd)
@@ -89,7 +89,7 @@ LocalSocket /tmp/clamd.sock
 
 # Sets the permissions on the unix socket to the specified mode.
 # Default: disabled (socket is world accessible)
-LocalSocketMode 660
+#LocalSocketMode 660
 
 # Remove stale socket after unclean shutdown.
 # Default: yes
@@ -97,7 +97,7 @@ LocalSocketMode 660
 
 # TCP port address.
 # Default: no
-#TCPSocket 3310
+TCPSocket <%= @listen_port %>
 
 # TCP address.
 # By default we bind to INADDR_ANY, probably not wise.
@@ -105,7 +105,7 @@ LocalSocketMode 660
 # from the outside world. This option can be specified multiple
 # times if you want to listen on multiple IPs. IPv6 is now supported.
 # Default: no
-#TCPAddr 127.0.0.1
+TCPAddr <%= @listen_host %>
 
 # Maximum length the queue of pending connections may grow to.
 # Default: 200
@@ -195,7 +195,7 @@ User _clamav
 
 # Initialize supplementary group access (clamd must be started by root).
 # Default: no
-AllowSupplementaryGroups yes
+#AllowSupplementaryGroups no
 
 # Stop daemon when libclamav reports out of memory condition.
 #ExitOnOOM yes
@@ -521,6 +521,31 @@ MaxRecursion 12
 # Default: 100
 #MaxIconsPE 200
 
+# This option sets the maximum calls to the PCRE match function during an instance of regex matching.
+# Instances using more than this limit will be terminated and alert the user but the scan will continue.
+# For more information on match_limit, see the PCRE documentation.
+# Negative values are not allowed.
+# WARNING: setting this limit too high may severely impact performance.
+# Default: 10000
+#PCREMatchLimit 20000
+
+# This option sets the maximum recursive calls to the PCRE match function during an instance of regex matching.
+# Instances using more than this limit will be terminated and alert the user but the scan will continue.
+# For more information on match_limit_recursion, see the PCRE documentation.
+# Negative values are not allowed and values > PCREMatchLimit are superfluous.
+# WARNING: setting this limit too high may severely impact performance.
+# Default: 5000
+#PCRERecMatchLimit 10000
+
+# This option sets the maximum filesize for which PCRE subsigs will be executed.
+# Files exceeding this limit will not have PCRE subsigs executed unless a subsig is encompassed to a smaller buffer.
+# Negative values are not allowed.
+# Setting this value to zero disables the limit.
+# WARNING: setting this limit too high or disabling it may severely impact performance.
+# Default: 25M
+#PCREMaxFileSize 100M
+
+
 ##
 ## On-access Scan Settings
 ##
@@ -529,6 +554,14 @@ MaxRecursion 12
 # Clamuko/Dazuko support has been deprecated.
 # Default: no
 #ScanOnAccess yes
+
+# Set the  mount point to be scanned. The mount point specified, or the mount point 
+# containing the specified directory will be watched. If any directories are specified, 
+# this option will preempt the DDD system. This will notify only. It can be used multiple times.
+# (On-access scan only)
+# Default: disabled
+#OnAccessMountPath /
+#OnAccessMountPath /home/user
 
 # Don't scan files larger than OnAccessMaxFileSize
 # Value of 0 disables the limit.
@@ -553,6 +586,23 @@ MaxRecursion 12
 # Default: disabled
 #OnAccessExcludeUID 0
 
+# Toggles dynamic directory determination. Allows for recursively watching include paths.
+# (On-access scan only)
+# Default: no
+#OnAccessDisableDDD yes
+
+# Modifies fanotify blocking behaviour when handling permission events.
+# If off, fanotify will only notify if the file scanned is a virus,
+# and not perform any blocking.
+# (On-access scan only)
+# Default: no
+#OnAccessPrevention yes
+
+# Toggles extra scanning and notifications when a file or directory is created or moved.
+# Requires the  DDD system to kick-off extra scans.
+# (On-access scan only)
+# Default: no
+#OnAccessExtraScanning yes
 
 ##
 ## Bytecode
