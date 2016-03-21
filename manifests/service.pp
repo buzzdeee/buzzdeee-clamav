@@ -18,7 +18,8 @@ class clamav::service (
 
   Exec { 'fetch clamav databases':
     command => '/usr/local/bin/freshclam',
-    creates  => '/var/db/clamav/main.cvd',
+    creates => '/var/db/clamav/main.cvd',
+    timeout => 900,
   }
 
   Service[$freshclam_service_name] ->
