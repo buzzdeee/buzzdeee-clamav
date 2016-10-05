@@ -13,4 +13,5 @@ class clamav::params {
 
   $listen_host = '127.0.0.1'
   $listen_port = '3310'
+  $allow_supplementary_groups = 'no'
 }

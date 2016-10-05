@@ -195,7 +195,7 @@ User _clamav
 
 # Initialize supplementary group access (clamd must be started by root).
 # Default: no
-#AllowSupplementaryGroups no
+AllowSupplementaryGroups <%= @allow_supplementary_groups %>
 
 # Stop daemon when libclamav reports out of memory condition.
 #ExitOnOOM yes

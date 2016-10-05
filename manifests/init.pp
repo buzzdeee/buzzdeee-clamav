@@ -50,6 +50,7 @@ class clamav (
 
   $listen_host = $clamav::params::listen_host,
   $listen_port = $clamav::params::listen_port,
+  $allow_supplementary_groups = $clamav::params::allow_supplementary_groups,
 ) inherits clamav::params {
 
   class { 'clamav::logrotate':
@@ -61,8 +62,9 @@ class clamav (
     unofficial_sigs_cron_ensure => $unofficial_sigs_cron_ensure,
   }
   class { 'clamav::config':
-    listen_host => $listen_host,
-    listen_port => $listen_port,
+    listen_host                => $listen_host,
+    listen_port                => $listen_port,
+    allow_supplementary_groups => $allow_supplementary_groups,
   }
 
   class { 'clamav::install':
